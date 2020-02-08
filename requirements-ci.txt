@@ -1,0 +1,5 @@
+pytest >= 4.6.3, < 5
+coverage
+coveralls
+pytest-cov
+
