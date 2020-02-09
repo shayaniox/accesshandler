@@ -8,6 +8,10 @@ _redisconnection = None
 
 
 def redisconnection():
+    '''
+    Returns an global redis connection object.
+    '''
+
     global _redisconnection
     if _redisconnection is None:
         _redisconnection = redis.Redis(**settings.redis_)
@@ -23,19 +27,37 @@ def setkey(connection, ip, pattern, ttl):
         {"1.1.1.1::/foo/bar": "20"}
 
     If the `viewcount` is None, so it means it's the first view from ip.
+
+    ...
+
+    Parameters
+    ----------
+    connection : redis.Redis
+    The redis connection
+    ip : str
+    The first part of storing key
+    pattern : str
+    The second part of storing key
+    ttl : datetime.timedelta
+    The expiry time of key value
     '''
+
     connection.setex(keystr(ip, pattern), ttl, 1)
 
 
 def keystr(ip, pattern):
+    '''
+    Creates an string from `ip` and `pattern` with a seperator between
+
+    ...
+
+    Parameters
+    ----------
+    ip : str
+    The first part of storing key
+    pattern : str
+    The second part of storing key
+    '''
+
     return f'{ip}::{pattern}'
-
-
-#async def start(name):
-#    print('Message router started')
-#    while True:
-#        queue, message = await queues.bpop_async(name)
-#        print(f'Processing message: {message}')
-#        await route(ujson.loads(message))
-#
 

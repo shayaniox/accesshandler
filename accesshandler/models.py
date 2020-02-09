@@ -6,6 +6,27 @@ from sqlalchemy import Integer, Unicode, Boolean
 
 
 class Rule(DeclarativeBase, OrderingMixin, FilteringMixin, PaginationMixin):
+    '''
+    A class used to represent an Animal
+
+    ...
+
+    Attributes
+    ----------
+    id : restfulpy.orm.Field
+    A unique autoincremental identifier
+
+    pattern : restfulpy.orm.Field
+    The pattern that contains and regex. Example:
+        'example.com/foo'
+
+    limit : restfulpy.orm.Field
+    The number of views per specific time interval
+
+    is_exact_url : restfulpy.orm.Field
+    Shows whether a pattern is an exact URL or not
+    '''
+
     __tablename__ = 'rule'
 
     id = Field(Integer, primary_key=True)
@@ -15,11 +36,19 @@ class Rule(DeclarativeBase, OrderingMixin, FilteringMixin, PaginationMixin):
 
     @property
     def limitvalue(self):
+        '''
+        Gets valid number of views from limit field.
+        '''
+
         value, timeunit = self.limit.split('/')
         return int(value)
 
     @property
     def limittimedelta(self):
+        '''
+        Gets timedelta from time unit of limit.
+        '''
+
         value, timeunit = self.limit.split('/')
         value = int(value)
 

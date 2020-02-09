@@ -8,12 +8,24 @@ import accesshandler
 from .cache import redisconnection, setkey, keystr
 from .models import Rule
 from .validators import rule_validator, update_rule_validator, \
-    LIMIT_PATTERN, log_validator
+    LIMIT_PATTERN, log_validator, EXACT_URL_PATTERN
 
 
 class LogController(RestController):
 
     def get_matching_patterns(self, url):
+        '''
+        Finds the patterns match the given url.
+        First searches through the exact urls, then regex patterns.
+
+        ...
+
+        Parameters
+        ----------
+        url: str
+        The url to search for matching patterns.
+        '''
+
         for rule in DBSession.query(Rule) \
                 .filter(Rule.is_exact_url == True) \
                 .filter(Rule.pattern == url):
@@ -50,7 +62,7 @@ class RuleController(RestController):
         if int(rule.limit.split('/')[0]) <= 0:
             raise HTTPStatus('400 Limit Value Must Be Greater Than 0')
 
-        if re.match(r'^[a-zA-Z\d\/\.]+$', rule.pattern):
+        if EXACT_URL_PATTERN.match(rule.pattern):
             rule.is_exact_url = True
 
         DBSession.add(rule)
@@ -68,7 +80,7 @@ class RuleController(RestController):
         if int(rule.limit.split('/')[0]) <= 0:
             raise HTTPStatus('400 Limit Value Must Be Greater Than 0')
 
-        if re.match(r'^[a-zA-Z\d\/]+$', rule.pattern):
+        if EXACT_URL_PATTERN.match(rule.pattern):
             rule.is_exact_url = True
 
         DBSession.add(rule)

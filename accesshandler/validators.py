@@ -4,6 +4,7 @@ from nanohttp import HTTPBadRequest, validate
 
 
 LIMIT_PATTERN = re.compile(r'^\d+\/(sec|min|hr)$')
+EXACT_URL_PATTERN = re.compile(r'^[a-zA-Z\d\/\.]+$')
 
 
 rule_validator = validate(
