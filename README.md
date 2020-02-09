@@ -35,7 +35,7 @@ sudo apt-get install libass-dev libpq-dev postgresql \
 
 ### Installing Project by pip
 
-**NOTE:** Highly recommended to use `virtual environment`. There some pip 
+**NOTE:** Highly recommended to use `virtual environment`. There are some pip
 packages for this purpose. But I offer you using `virtualenvwrapper` package.
 
 You can install by 'pip install' and use https by the following way:
@@ -61,13 +61,6 @@ cd /path/to/workspace
 git clone git@github.com:shayan-7/accesshandler.git
 cd accesshandler
 pip install -e .
-```
-
-#### Enabling the bash autocompletion for accesshandler
-
-```bash
-echo "eval \"\$(register-python-argcomplete accesshandler)\"" >> $VIRTUAL_ENV/bin/postactivate
-deactivate && workon accesshandler
 ```
 
 ### Setup Database
@@ -124,6 +117,9 @@ To check all tests passing and **100%** coverage run the following command:
 pip install -r requirements-ci.txt
 pytest --cov=accesshandler
 ```
+
+Then all the tested APIs generated in `<path/to/accesshandler>/data/markdown`
+by Markdown format.
 
 ### Serving
 
