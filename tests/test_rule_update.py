@@ -29,6 +29,19 @@ class TestRule(LocalApplicableTestCase):
             assert status == 200
 
             when(
+                'Rule pattern is exact url',
+                json=given | dict(pattern='/foo/bar'),
+            )
+            assert status == 200
+            assert response.json['isExactUrl'] == True
+
+            when(
+                'Rule is not found',
+                url_parameters=dict(id=0),
+            )
+            assert status == 404
+
+            when(
                 'Nothing exists in form',
                 json=dict(),
             )

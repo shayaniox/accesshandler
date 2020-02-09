@@ -1,11 +1,42 @@
-from nanohttp import json, HTTPNotFound, HTTPStatus
+import re
+
+from nanohttp import json, HTTPNotFound, HTTPStatus, action, context
 from restfulpy.controllers import RootController, RestController
 from restfulpy.orm import commit, DBSession
 
 import accesshandler
-from accesshandler.models import Rule
-from accesshandler.validators import rule_validator, update_rule_validator, \
-    LIMIT_PATTERN
+from .cache import redisconnection, setkey, keystr
+from .models import Rule
+from .validators import rule_validator, update_rule_validator, \
+    LIMIT_PATTERN, log_validator
+
+
+class LogController(RestController):
+
+    def get_matching_patterns(self, url):
+        for rule in DBSession.query(Rule) \
+                .filter(Rule.is_exact_url == True) \
+                .filter(Rule.pattern == url):
+            yield rule
+
+        for rule in DBSession.query(Rule).filter(Rule.is_exact_url == False):
+            if re.match(rule.pattern, url):
+                yield rule
+
+    @action
+    @log_validator
+    def post(self):
+        ip = context.form['IP']
+        url = context.form['url']
+        redisconn = redisconnection()
+
+        for rule in self.get_matching_patterns(url):
+            viewcount = redisconn.get(keystr(ip, rule.pattern))
+            if viewcount is None:
+                setkey(redisconn, ip, rule.pattern, rule.limittimedelta)
+
+            elif redisconn.incr(keystr(ip, rule.pattern)) > rule.limitvalue:
+                raise HTTPStatus('429 Too Many Requests')
 
 
 class RuleController(RestController):
@@ -18,6 +49,9 @@ class RuleController(RestController):
         rule.update_from_request()
         if int(rule.limit.split('/')[0]) <= 0:
             raise HTTPStatus('400 Limit Value Must Be Greater Than 0')
+
+        if re.match(r'^[a-zA-Z\d\/\.]+$', rule.pattern):
+            rule.is_exact_url = True
 
         DBSession.add(rule)
         return rule
@@ -33,6 +67,9 @@ class RuleController(RestController):
         rule.update_from_request()
         if int(rule.limit.split('/')[0]) <= 0:
             raise HTTPStatus('400 Limit Value Must Be Greater Than 0')
+
+        if re.match(r'^[a-zA-Z\d\/]+$', rule.pattern):
+            rule.is_exact_url = True
 
         DBSession.add(rule)
         return rule
@@ -56,6 +93,7 @@ class RuleController(RestController):
 class Apiv1(RestController):
 
     rules = RuleController()
+    logs = LogController()
 
     @json
     def version(self):

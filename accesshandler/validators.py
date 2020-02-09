@@ -2,7 +2,9 @@ import re
 
 from nanohttp import HTTPBadRequest, validate
 
+
 LIMIT_PATTERN = re.compile(r'^\d+\/(sec|min|hr)$')
+
 
 rule_validator = validate(
     pattern=dict(
@@ -25,5 +27,11 @@ update_rule_validator = validate(
         type_=(str, '400 Limit Must Be Alphabetical'),
         pattern=(LIMIT_PATTERN, '400 Wrong Limit Format'),
     ),
+)
+
+
+log_validator = validate(
+    IP=dict(required='400 IP Is Required'),
+    url=dict(required='400 URL Is Required'),
 )
 

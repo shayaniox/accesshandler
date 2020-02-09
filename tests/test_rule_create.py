@@ -10,7 +10,7 @@ class TestRule(LocalApplicableTestCase):
             'Creating an rule',
             '/apiv1/rules',
             'CREATE',
-            json=dict(pattern='example.com/foo/*', limit='20/min'),
+            json=dict(pattern='example.com/foo/bar', limit='20/min'),
         ):
             assert status == 200
 
