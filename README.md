@@ -26,14 +26,14 @@ The goal is to check if an specific `IP` requested more than limit time interval
 for specific `url` matched the patterns and inform by `429 Too Many Requests`
 HTTP status.
 
-### Installing Dependencies
+### Installing dependencies
 
 ```bash
 sudo apt-get install libass-dev libpq-dev postgresql \
     build-essential redis-server redis-tools
 ```
 
-### Installing Project by pip
+### Installing project by pip
 
 **NOTE:** Highly recommended to use `virtual environment`. There are some pip
 packages for this purpose. But I offer you using `virtualenvwrapper` package.
@@ -50,7 +50,7 @@ Or you can use SSH:
 pip install git+git@github.com:shayan-7/accesshandler.git
 ```
 
-### Installing Project (edit mode)
+### Installing project (edit mode)
 
 So, your changes will affect instantly on the installed version
 
@@ -63,7 +63,7 @@ cd accesshandler
 pip install -e .
 ```
 
-### Setup Database
+### Setup database
 
 #### Configuration
 
