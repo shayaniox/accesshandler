@@ -132,4 +132,4 @@ $ ./gunicorn
 ### Deployment
 
 For deploying the web service follow
-the [DEPLOY.md](github.com/shayan-7/accesshandler/deployment/DEPLOY.md)
+the [DEPLOY.md](deployment/DEPLOY.md)
