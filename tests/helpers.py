@@ -13,3 +13,4 @@ class LocalApplicableTestCase(ApplicableTestCase):
     __application__ = AccessHandler()
     __api_documentation_directory__ = path.join(DATA_DIRECTORY, 'markdown')
 
+

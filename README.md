@@ -129,7 +129,6 @@ by Markdown format.
 $ ./gunicorn
 ```
 
-### Deployment
+### APIs list
 
-For deploying the web service follow
-the [DEPLOY.md](deployment/DEPLOY.md)
+Check out [API.md](API.md) for list of APIs and sample responses.
