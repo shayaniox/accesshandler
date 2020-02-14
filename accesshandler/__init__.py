@@ -10,9 +10,10 @@ __version__ = '0.1.0'
 
 
 class AccessHandler(Application):
+        #url: postgresql://postgres:postgres@localhost/accesshandler_dev
     __configuration__ = '''
       db:
-        url: postgresql://postgres:postgres@localhost/accesshandler_dev
+        url: postgresql://postgres:@pg:5432/accesshandler
         test_url: postgresql://postgres:postgres@localhost/accesshandler_test
         administrative_url: postgresql://postgres:postgres@localhost/postgres
 

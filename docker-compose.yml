@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    container_name: pg
+    ports:
+      - 5432:5432
+
+  cache:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+
+  web:
+    build: .
+    image: shayan7/practice
+    container_name: practice
+    depends_on:
+      - db
+      - cache
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/usr/local/accesshandler
+

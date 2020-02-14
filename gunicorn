@@ -1,4 +1,4 @@
 #! /bin/bash
 
-gunicorn -t99999 --reload --bind :8084 wsgi:app
+gunicorn -t99999 --reload --bind :8080 wsgi:app
 
