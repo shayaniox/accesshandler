@@ -28,9 +28,9 @@ class LogController(RestController):
         '''
 
         yield DBSession.query(Rule) \
-                .filter(Rule.is_exact_url == True) \
-                .filter(Rule.pattern == url) \
-                .first()
+            .filter(Rule.is_exact_url == True) \
+            .filter(Rule.pattern == url) \
+            .first()
 
         for rule in DBSession.query(Rule).filter(Rule.is_exact_url == False):
             if re.match(rule.pattern, url):
