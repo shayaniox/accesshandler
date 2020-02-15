@@ -7,8 +7,8 @@ RUN pip3 install gunicorn
 RUN pip3 install -e .
 
 RUN mkdir /etc/accesshandler
-RUN echo "db:\n  url: postgresql://postgres:@pg:5432/accesshandler\n\
-  administrative_url: postgresql://postgres:@pg:5432/postgres \nredis_:\n\
+RUN echo "db:\n  url: postgresql://postgres:password@pg:5432/accesshandler\n\
+  administrative_url: postgresql://postgres:password@pg:5432/postgres \nredis_:\n\
   host: redis\n  port: 6379\n  password: ~\n  db: 1\
   \ndebug: true" > /etc/accesshandler/config.yml
 

@@ -4,12 +4,23 @@ Resource access limit handler
 
 ### What does it do?
 
-The **Access Handler** is a web service that stores the _Rules_ user create.
+The **Access Handler** is a web service that stores the _Rules_ user creates.
 The _Rules_ contains:
 
 - pattern: It can be either an exact explicit url or a regex
 - limit: Shows how many times an specific IP can request for an url matched
   the pattern
+  
+Sample rule be like:
+
+```json
+{
+    "limit":"100/sec",
+    "isExactUrl":false,
+    "pattern":"/foo/.*",
+    "id":1
+}
+```
 
 Also this web service recieves logs by the format of:
 
@@ -25,6 +36,33 @@ showing the which `IP` requested for `url`.
 The goal is to check if an specific `IP` requested more than limit time interval
 for specific `url` matched the patterns and inform by `429 Too Many Requests`
 HTTP status.
+
+### In action
+
+Let's test how it works step by step:
+
+**NOTE:** the `$URL` is url of web service.
+
+1. Create a rule by [CREATE rule API](API.md#creating-an-rule) and set the 
+limit to a value like `10/min`, like:
+
+```bash
+curl -X CREATE --data '{"pattern": "example.com/foo/.*", "limit": "10/min"}' -- "$URL/apiv1/rules"
+```
+
+2. Try to post log by [POST log API](API.md#post-a-log-to-check-if-passed-the-limit-or-not) 
+for more than `10` times in less `1` minute. The web service must respond you 
+with `200 OK` status for `10` first times, and `429 Too Many Requests` for more
+than `10` times of request. Your request should be like below:
+
+```bash
+curl -X POST --data '{"url": "example.com/foo/bar", "IP": "1.1.1.1"}' -- "$URL/apiv1/logs?"
+```
+
+What we did was creating a rule that shows an specific `IP: 1.1.1.1` can view the 
+`url: example.com/foo/bar` at most for `10` times per minute because this url 
+matched with created rule `pattern: /foo/.*`.
+
 
 ### Installing dependencies
 

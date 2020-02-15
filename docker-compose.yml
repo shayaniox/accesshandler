@@ -6,6 +6,8 @@ services:
     container_name: pg
     ports:
       - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
 
   cache:
     image: redis
@@ -15,13 +17,20 @@ services:
 
   web:
     build: .
-    image: shayan7/practice
-    container_name: practice
-    depends_on:
+    image: shayan7/accesshandler
+    container_name: accesshandler
+#    depends_on:
+#      - db
+#      - cache
+#    depends_on:
+#      - db
+#      - cache
+    links:
       - db
       - cache
     ports:
       - 8080:8080
+    restart: on-failure
     volumes:
       - ./:/usr/local/accesshandler
 
