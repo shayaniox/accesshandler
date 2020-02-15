@@ -13,7 +13,7 @@ class AccessHandler(Application):
         #url: postgresql://postgres:postgres@localhost/accesshandler_dev
     __configuration__ = '''
       db:
-        url: postgresql://postgres:@pg:5432/accesshandler
+        url: postgresql://postgres:postgres@localhost/accesshandler_dev
         test_url: postgresql://postgres:postgres@localhost/accesshandler_test
         administrative_url: postgresql://postgres:postgres@localhost/postgres
 
