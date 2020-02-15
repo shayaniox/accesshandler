@@ -14,6 +14,9 @@ class TestRule(LocalApplicableTestCase):
         ):
             assert status == 200
 
+            when('Pattern already exists')
+            assert status == '400 Pattern Already Exists'
+
             when(
                 'Pattern is not in form',
                 json=given - 'pattern',

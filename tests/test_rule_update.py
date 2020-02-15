@@ -28,6 +28,9 @@ class TestRule(LocalApplicableTestCase):
         ):
             assert status == 200
 
+            when('Pattern already exists')
+            assert status == '400 Pattern Already Exists'
+
             when(
                 'Rule pattern is exact url',
                 json=given | dict(pattern='/foo/bar'),

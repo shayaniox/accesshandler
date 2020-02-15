@@ -3,6 +3,7 @@ import re
 from nanohttp import json, HTTPNotFound, HTTPStatus, action, context
 from restfulpy.controllers import RootController, RestController
 from restfulpy.orm import commit, DBSession
+from sqlalchemy import exists
 
 import accesshandler
 from .cache import redisconnection, setkey, keystr
@@ -62,6 +63,11 @@ class RuleController(RestController):
         if int(rule.limit.split('/')[0]) <= 0:
             raise HTTPStatus('400 Limit Value Must Be Greater Than 0')
 
+        if DBSession.query(
+            exists().where(Rule.pattern == rule.pattern)
+        ).scalar():
+            raise HTTPStatus('400 Pattern Already Exists')
+
         if EXACT_URL_PATTERN.match(rule.pattern):
             rule.is_exact_url = True
 
@@ -79,6 +85,11 @@ class RuleController(RestController):
         rule.update_from_request()
         if int(rule.limit.split('/')[0]) <= 0:
             raise HTTPStatus('400 Limit Value Must Be Greater Than 0')
+
+        if DBSession.query(
+            exists().where(Rule.pattern == rule.pattern)
+        ).scalar():
+            raise HTTPStatus('400 Pattern Already Exists')
 
         if EXACT_URL_PATTERN.match(rule.pattern):
             rule.is_exact_url = True
