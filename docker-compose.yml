@@ -17,14 +17,7 @@ services:
 
   web:
     build: .
-    image: shayan7/accesshandler
     container_name: accesshandler
-#    depends_on:
-#      - db
-#      - cache
-#    depends_on:
-#      - db
-#      - cache
     links:
       - db
       - cache
