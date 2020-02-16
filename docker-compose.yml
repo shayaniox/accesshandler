@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=password
 
   cache:
-    image: redis
+    image: redis:buster
     container_name: redis
     ports:
       - 6379:6379
