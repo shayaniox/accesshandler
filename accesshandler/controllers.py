@@ -27,10 +27,12 @@ class LogController(RestController):
         The url to search for matching patterns.
         '''
 
-        yield DBSession.query(Rule) \
+        exact_matching_pattern = DBSession.query(Rule) \
             .filter(Rule.is_exact_url == True) \
             .filter(Rule.pattern == url) \
             .first()
+        if exact_matching_pattern is not None:
+            yield exact_matching_pattern
 
         for rule in DBSession.query(Rule).filter(Rule.is_exact_url == False):
             if re.match(rule.pattern, url):
