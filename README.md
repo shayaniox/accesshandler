@@ -47,7 +47,7 @@ Let's test how it works step by step:
 limit to a value like `10/min`, like:
 
 ```bash
-curl -X CREATE --data '{"pattern": "example.com/foo/.*", "limit": "10/min"}' -- "$URL/apiv1/rules"
+curl -X CREATE -H "Content-Type: application/json" --data '{"pattern": "example.com/foo/.*", "limit": "10/min"}' -- "$URL/apiv1/rules"
 ```
 
 2. Try to post log by [POST log API](API.md#post-a-log-to-check-if-passed-the-limit-or-not) 
@@ -56,7 +56,7 @@ with `200 OK` status for `10` first times, and `429 Too Many Requests` for more
 than `10` times of request. Your request should be like below:
 
 ```bash
-curl -X POST --data '{"url": "example.com/foo/bar", "IP": "1.1.1.1"}' -- "$URL/apiv1/logs?"
+curl -X POST -H "Content-Type: application/json" --data '{"url": "example.com/foo/bar", "IP": "1.1.1.1"}' -- "$URL/apiv1/logs?"
 ```
 
 What we did was creating a rule that shows an specific `IP: 1.1.1.1` can view the 
