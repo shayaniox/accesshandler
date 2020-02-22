@@ -10,7 +10,7 @@ RUN mkdir /etc/accesshandler
 RUN echo "db:\n  url: postgresql://postgres:password@pg:5432/accesshandler\n\
   administrative_url: postgresql://postgres:password@pg:5432/postgres \nredis_:\n\
   host: redis\n  port: 6379\n  password: ~\n  db: 1\
-  \ndebug: true" > /etc/accesshandler/config.yml
+  \ndebug: false" > /etc/accesshandler/config.yml
 
 RUN echo "from accesshandler import accesshandler\n\naccesshandler.configure\
   (filename='/etc/accesshandler/config.yml')\naccesshandler.initialize_orm()\
