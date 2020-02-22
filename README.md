@@ -44,23 +44,23 @@ Let's test how it works step by step:
 **NOTE:** the `$URL` is url of web service.
 
 1. Create a rule by [CREATE rule API](API.md#creating-an-rule) and set the 
-limit to a value like `10/min`, like:
+limit to a value like `2/min`, like:
 
 ```bash
-curl -X CREATE -H "Content-Type: application/json" --data '{"pattern": "example.com/foo/.*", "limit": "10/min"}' -i -- "$URL/apiv1/rules"
+curl -X CREATE -H "Content-Type: application/json" --data '{"pattern": "example.com/foo/.*", "limit": "2/min"}' -i -- "$URL/apiv1/rules"
 ```
 
 2. Try to post log by [POST log API](API.md#post-a-log-to-check-if-passed-the-limit-or-not) 
-for more than `10` times in less `1` minute. The web service must respond you 
-with `200 OK` status for `10` first times, and `429 Too Many Requests` for more
-than `10` times of request. Your request should be like below:
+for more than `2` times in less `1` minute. The web service must respond you 
+with `200 OK` status for `2` first times, and `429 Too Many Requests` for more
+than `2` times of request. Your request should be like below:
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"url": "example.com/foo/bar", "IP": "1.1.1.1"}' -i -- "$URL/apiv1/logs?"
 ```
 
 What we did was creating a rule that shows an specific `IP: 1.1.1.1` can view the 
-`url: example.com/foo/bar` at most for `10` times per minute because this url 
+`url: example.com/foo/bar` at most for `2` times per minute because this url 
 matched with created rule `pattern: /foo/.*`.
 
 
